@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:fquiz_app1/view/splash_screen/splash_screen.dart';
+
+import 'package:fquiz_app1/view/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: WelcomScreen());
   }
 }

@@ -1,4 +1,4 @@
 class ImageConstants {
-  static const String splashimage =
-      "asset/images/splash.jpeg"; //static-single memory allocation
+  static const String welcomeimage =
+      "asset/images/welcome.png"; //static-single memory allocation
 }

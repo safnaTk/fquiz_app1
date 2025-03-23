@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:fquiz_app1/dummydb.dart';
-import 'package:fquiz_app1/view/maths_screen.dart';
+import 'package:fquiz_app1/view/home_screen.dart';
 
-class MathsResultScreen extends StatelessWidget {
-  // constructor call build call,after widget shown-stless
-  const MathsResultScreen({super.key, required this.rightAnsCount});
+
+
+class ResultScreen extends StatelessWidget {
+  final String categoryName;
   final int rightAnsCount;
+  final int totalQuestions;
+
+  const ResultScreen({
+    super.key,
+    required this.categoryName,
+    required this.rightAnsCount,
+    required this.totalQuestions,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.purpleAccent,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Star Rating
             Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              spacing: 20,
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 3,
@@ -34,18 +41,22 @@ class MathsResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
+
+            // Result Message
             Text(
               getResultMessage(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
                 color: Colors.amber,
               ),
             ),
-            SizedBox(height: 20),
-            Text(
-              "your score",
+            const SizedBox(height: 20),
+
+            // Score Display
+            const Text(
+              "Your Score",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -53,34 +64,35 @@ class MathsResultScreen extends StatelessWidget {
               ),
             ),
             Text(
-              "${rightAnsCount}/${Dummydb.mathsQuestions.length}",
-              style: TextStyle(
+              "$rightAnsCount / $totalQuestions",
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
                 color: Colors.amber,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
+
+           
             InkWell(
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MathsScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               },
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 width: 200,
-
                 child: Row(
-                  spacing: 10,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(Icons.replay_circle_filled_outlined),
+                    SizedBox(width: 10),
                     Text(
                       "Retry",
                       style: TextStyle(
@@ -98,9 +110,10 @@ class MathsResultScreen extends StatelessWidget {
     );
   }
 
+  /// Calculates stars based on the score percentage
   int _calculatePercentage() {
     print(rightAnsCount);
-    double percentage = (rightAnsCount / Dummydb.mathsQuestions.length) * 100;
+    double percentage = (rightAnsCount / totalQuestions) * 100;
     print(percentage);
     if (percentage >= 80) {
       return 3;
@@ -112,6 +125,8 @@ class MathsResultScreen extends StatelessWidget {
       return 0;
     }
   }
+
+  /// Generates a result message based on performance
   String getResultMessage() {
     int stars = _calculatePercentage();
     if (stars == 3) {
@@ -125,5 +140,3 @@ class MathsResultScreen extends StatelessWidget {
     }
   }
 }
-
-

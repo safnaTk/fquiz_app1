@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fquiz_app1/view/geography_screen.dart';
-import 'package:fquiz_app1/view/home_screen/history_screen.dart';
-import 'package:fquiz_app1/view/home_screen/science_screen.dart';
-import 'package:fquiz_app1/view/maths_screen.dart';
+import 'package:fquiz_app1/dummydb.dart';
+import 'package:fquiz_app1/model/questions_model/questions_model.dart';
+import 'package:fquiz_app1/view/quiz_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,27 +12,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Categories List
   final List<Map<String, dynamic>> categories = [
-    {'name': 'Science', 'icon': Icons.science, 'questions': 15},
-    {'name': 'History', 'icon': Icons.menu_book, 'questions': 15},
-    {'name': 'Geography', 'icon': Icons.public, 'questions': 15},
-    {'name': 'maths', 'icon': Icons.calculate, 'questions': 15},
+    {'name': 'Science', 'icon': Icons.science},
+    {'name': 'History', 'icon': Icons.history},
+    {'name': 'Geography', 'icon': Icons.public},
+    {'name': 'Maths', 'icon': Icons.calculate},
   ];
-  List<Widget> typeOfscreen = [
-    // store multiple widget screen
-    ScienceScreen(),
-    HistoryScreen(),
-    GeographyScreen(),
-    MathsScreen(),
-  ];
-  int clickableindex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz App'),
-        backgroundColor: Colors.blue,
+        title: const Text('Quiz App'),
+        backgroundColor: Colors.purpleAccent,
         centerTitle: true,
       ),
       body: Padding(
@@ -40,18 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select a Category',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
-                  childAspectRatio: 1.2,
+                  childAspectRatio: 1.2,// adjust item size
                 ),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
@@ -59,16 +52,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      clickableindex = index;
+                      // Get the correct question list based on category
+                      List<QuestionModel> questions = [];
+                      switch (category['name']) {
+                        case 'Science':
+                          questions = Dummydb.scienceQuestion;
+                          break;
+                        case 'History':
+                          questions = Dummydb.historyQuestions;
+                          break;
+                        case 'Geography':
+                          questions = Dummydb.geographyQuestions;
+                          break;
+                        case 'Maths':
+                          questions = Dummydb.mathsQuestions;
+                          break;
+                      }
+
+                      // Navigate to QuizScreen with questions
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => typeOfscreen[clickableindex],
+                          builder:
+                              (context) => QuizScreen(
+                                categoryName: category['name'],
+                                questions: questions,
+                              ),
                         ),
                       );
                     },
                     child: Card(
-                      color: Colors.blue,
+                      color: Colors.purpleAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -76,20 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(category['icon'], size: 50, color: Colors.white),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             category['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '${category['questions']} Questions',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
                             ),
                           ),
                         ],
