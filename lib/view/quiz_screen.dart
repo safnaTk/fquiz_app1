@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fquiz_app1/model/questions_model/questions_model.dart';
 import 'package:fquiz_app1/view/result_screen.dart';
 
-
-
-
 class QuizScreen extends StatefulWidget {
   final String categoryName;
   final List<QuestionModel> questions;
@@ -43,7 +40,7 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            spacing: 20,
+            spacing: 10,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LinearProgressIndicator(

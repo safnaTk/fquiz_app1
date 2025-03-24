@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fquiz_app1/view/home_screen.dart';
 
-
-
 class ResultScreen extends StatelessWidget {
   final String categoryName;
   final int rightAnsCount;
@@ -23,7 +21,6 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Star Rating
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -43,7 +40,6 @@ class ResultScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
 
-            // Result Message
             Text(
               getResultMessage(),
               style: const TextStyle(
@@ -54,7 +50,6 @@ class ResultScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Score Display
             const Text(
               "Your Score",
               style: TextStyle(
@@ -73,7 +68,6 @@ class ResultScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
-           
             InkWell(
               onTap: () {
                 Navigator.pushReplacement(
@@ -126,7 +120,6 @@ class ResultScreen extends StatelessWidget {
     }
   }
 
-  /// Generates a result message based on performance
   String getResultMessage() {
     int stars = _calculatePercentage();
     if (stars == 3) {
